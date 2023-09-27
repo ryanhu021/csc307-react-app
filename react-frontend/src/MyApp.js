@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import Table from "./Table";
+import Table from "./components/Table";
 import Form from "./components/Form";
 
 function MyApp() {
   const [characters, setCharacters] = useState([]);
 
   function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index;
-    });
+    const updated = characters.filter((character, i) => i !== index);
     setCharacters(updated);
   }
 

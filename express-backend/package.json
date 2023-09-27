@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx nodemon backend.js",
-    "start": "node backend.js"
+    "start": "node backend.js",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore . && prettier --check .",
+    "lint-fix": "eslint --ext .js,.ts --ignore-path .gitignore . --fix && prettier --write ."
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +17,12 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "eslint": "^8.50.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3"
   }
 }
