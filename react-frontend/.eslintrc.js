@@ -3,7 +3,11 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+<<<<<<< HEAD
   extends: ["airbnb", "prettier"],
+=======
+  extends: ["plugin:react/recommended", "airbnb", "prettier"],
+>>>>>>> setup linter
   overrides: [
     {
       env: {
@@ -19,7 +23,14 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
+  plugins: ["react", "prettier"],
   rules: {
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": "off",
     "react/prop-types": "off",
