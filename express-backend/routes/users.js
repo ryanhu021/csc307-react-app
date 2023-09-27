@@ -3,7 +3,7 @@ import express from "express";
 const router = express.Router();
 
 const users = {
-  users_list: [
+  usersList: [
     {
       id: "xyz789",
       name: "Charlie",
@@ -32,21 +32,25 @@ const users = {
   ],
 };
 
-const findUserByName = (name) =>
-  users.users_list.filter((user) => user.name === name);
+const filterUsersByName = (usersList, name) =>
+  usersList.filter((user) => user.name === name);
+
+const filterUsersByJob = (usersList, job) =>
+  usersList.filter((user) => user.job === job);
 
 router.get("/", (req, res) => {
-  const { name } = req.query;
-  if (name !== undefined) {
-    let result = findUserByName(name);
-    result = { users_list: result };
-    res.send(result);
-  } else {
-    res.send(users);
+  const { name, job } = req.query;
+  let result = users.usersList;
+  if (name) {
+    result = filterUsersByName;
   }
+  if (job) {
+    result = filterUsersByJob;
+  }
+  res.send({ usersList: result });
 });
 
-const findUserById = (id) => users.users_list.find((user) => user.id === id);
+const findUserById = (id) => users.usersList.find((user) => user.id === id);
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
@@ -59,7 +63,7 @@ router.get("/:id", (req, res) => {
 });
 
 const addUser = (user) => {
-  users.users_list.push(user);
+  users.usersList.push(user);
   return user;
 };
 
@@ -70,9 +74,9 @@ router.post("/", (req, res) => {
 });
 
 const deleteUser = (id) => {
-  const index = users.users_list.findIndex((user) => user.id === id);
+  const index = users.usersList.findIndex((user) => user.id === id);
   if (index !== -1) {
-    return users.users_list.splice(index, 1);
+    return users.usersList.splice(index, 1);
   }
   return null;
 };
