@@ -3,11 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-<<<<<<< HEAD
-  extends: ["airbnb", "prettier"],
-=======
   extends: ["plugin:react/recommended", "airbnb", "prettier"],
->>>>>>> setup linter
   overrides: [
     {
       env: {
