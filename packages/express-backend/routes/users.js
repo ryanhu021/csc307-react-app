@@ -1,4 +1,5 @@
 import express from "express";
+import userServices from "../models/user-services";
 
 const router = express.Router();
 
@@ -34,61 +35,41 @@ const users = {
 
 const userIdSet = new Set(users.usersList.map((user) => user.id));
 
-const generateId = () => {
-  let id = "";
-  do {
-    id = Math.random().toString(36).substring(2, 8);
-  } while (userIdSet.has(id));
-  return id;
-};
-
 // get users
 
-const filterUsersByName = (usersList, name) =>
-  usersList.filter((user) => user.name === name);
-
-const filterUsersByJob = (usersList, job) =>
-  usersList.filter((user) => user.job === job);
-
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   const { name, job } = req.query;
-  let result = users.usersList;
-  if (name) {
-    result = filterUsersByName;
+  try {
+    const result = await userServices.getUsers(name, job);
+    res.send({ usersList: result });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error ocurred in the server.");
   }
-  if (job) {
-    result = filterUsersByJob;
-  }
-  res.send({ usersList: result });
 });
 
 // get user by id
 
-const findUserById = (id) => users.usersList.find((user) => user.id === id);
-
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
-  const result = findUserById(id);
-  if (!result) {
+  const result = await userServices.findUserById(id);
+  if (result === undefined || result === null) {
     res.status(404).send("Resource not found.");
   } else {
-    res.send(result);
+    res.send({ users_list: result });
   }
 });
 
 // add user
 
-const addUser = (user) => {
-  users.usersList.push(user);
-  userIdSet.add(user.id);
-  return user;
-};
-
-router.post("/", (req, res) => {
-  const userToAdd = req.body;
-  userToAdd.id = generateId();
-  const result = addUser(userToAdd);
-  res.status(201).send(result);
+router.post("/", async (req, res) => {
+  const user = req.body;
+  const savedUser = await userServices.addUser(user);
+  if (savedUser) {
+    res.status(201).send(savedUser);
+  } else {
+    res.status(500).end();
+  }
 });
 
 // delete user

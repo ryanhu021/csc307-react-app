@@ -71,6 +71,12 @@ describe("containsNumbers function", () => {
     expect(got).toBe(expected);
   });
 
+  it("space", () => {
+    const expected = false;
+    const got = mut.containsNumbers(" ");
+    expect(got).toBe(expected);
+  });
+
   it("infinity", () => {
     const expected = false;
     const got = mut.containsNumbers("Infinity");
