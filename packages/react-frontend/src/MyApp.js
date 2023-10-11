@@ -47,7 +47,7 @@ function MyApp() {
   }
 
   function removeOneCharacter(index) {
-    deleteUser(characters[index].id)
+    deleteUser(characters[index]._id)
       .then(
         (res) =>
           res.status === 204 &&

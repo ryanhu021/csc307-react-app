@@ -32,5 +32,6 @@ module.exports = {
     "react/prop-types": "off",
     "react/jsx-no-bind": "off",
     "react/no-array-index-key": "off",
+    "no-underscore-dangle": "off",
   },
 };

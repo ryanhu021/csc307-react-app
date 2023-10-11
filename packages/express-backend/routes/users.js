@@ -1,39 +1,7 @@
 import express from "express";
-import userServices from "../models/user-services";
+import userServices from "../models/user-services.js";
 
 const router = express.Router();
-
-const users = {
-  usersList: [
-    {
-      id: "xyz789",
-      name: "Charlie",
-      job: "Janitor",
-    },
-    {
-      id: "abc123",
-      name: "Mac",
-      job: "Bouncer",
-    },
-    {
-      id: "ppp222",
-      name: "Mac",
-      job: "Professor",
-    },
-    {
-      id: "yat999",
-      name: "Dee",
-      job: "Aspring actress",
-    },
-    {
-      id: "zap555",
-      name: "Dennis",
-      job: "Bartender",
-    },
-  ],
-};
-
-const userIdSet = new Set(users.usersList.map((user) => user.id));
 
 // get users
 
@@ -63,8 +31,8 @@ router.get("/:id", async (req, res) => {
 // add user
 
 router.post("/", async (req, res) => {
-  const user = req.body;
-  const savedUser = await userServices.addUser(user);
+  const { name, job } = req.body;
+  const savedUser = await userServices.addUser({ name, job });
   if (savedUser) {
     res.status(201).send(savedUser);
   } else {
@@ -74,19 +42,11 @@ router.post("/", async (req, res) => {
 
 // delete user
 
-const deleteUser = (id) => {
-  if (userIdSet.has(id)) {
-    users.usersList = users.usersList.filter((user) => user.id !== id);
-    userIdSet.delete(id);
-    return true;
-  }
-  return false;
-};
-
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  if (deleteUser(id)) {
-    res.status(204).send();
+  const deletedUser = await userServices.deleteUser(id);
+  if (deletedUser) {
+    res.status(204).end();
   } else {
     res.status(404).send("Resource not found.");
   }
