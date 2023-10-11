@@ -59,6 +59,12 @@ describe("containsNumbers function", () => {
     expect(got).toBe(expected);
   });
 
+  // it("space", () => {
+  //   const expected = false;
+  //   const got = mut.containsNumbers(" ");
+  //   expect(got).toBe(expected);
+  // });
+
   it("empty string", () => {
     const expected = false;
     const got = mut.containsNumbers("");
